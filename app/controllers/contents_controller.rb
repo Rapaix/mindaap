@@ -3,6 +3,8 @@ class ContentsController < ApplicationController
   before_action :set_content, only: %i[show edit destroy update]
   def index
     @contents = current_user.contents
+    tag_names = params[:tags]
+    @contents = @contents.joins(:tags).where(tags: { name: tag_names }).distinct if tag_names.present?
   end
 
   # toma cuidado com a grafia dos atributos
